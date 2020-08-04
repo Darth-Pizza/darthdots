@@ -18,13 +18,39 @@ Plug 'tpope/vim-commentary'
 Plug 'thaerkh/vim-indentguides'
 Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
-" Plug 'jaredgorski/spacecamp'
 Plug 'alvan/vim-closetag'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+
+" Autocompletion
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+" NOTE: you need to install completion sources to get completions. Check
+" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-tern'
+Plug 'ncm2/ncm2-pyclang'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
+
+" NCM2 Settings
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
 
 " The basics
 set encoding=UTF-8
@@ -34,9 +60,6 @@ set nobackup
 set nowritebackup
 syntax on
 filetype plugin indent on
-
-" Set colorscheme
-" colorscheme spacecamp
 
 " Tab space and shift width
 set ts=2 sw=2
@@ -79,33 +102,6 @@ autocmd BufWritePost *.sass,*.scss !sass ./*.s*ss ./main.css
 autocmd BufWritePost *.ms !groff -ms ./*.ms -T pdf > %:r.pdf
 
 " Ultisnips
-" let g:UltiSnipsExpandTrigger="<c-space>"
-
-" Coc Vim Settings
-"
-" Plugins used:
-" coc-tsserver
-" coc-json
-" coc-html
-" coc-css
-" coc-ultisnips
-" coc-eslint //install eslint through npm
-
-" Better display for messages
-" set cmdheight=2
-
-" You will have bad experience for diagnostic messages when it's default 4000.
-" set updatetime=300
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" inoremap <silent><expr> <TAB>
-" 	\ pumvisible() ? "\<C-n>" :
-" 	\ <SID>check_back_space() ? "\<TAB>" :
-" 	\ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" function! s:check_back_space() abort
-" 	let col = col('.') - 1
-" 	return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
