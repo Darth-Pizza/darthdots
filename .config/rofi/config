@@ -1,0 +1,4 @@
+rofi.show-icons: true
+rofi.font: Inter Regular 12
+rofi.fullscreen: true
+rofi.theme: ~/.config/rofi/big-drawer.rasi

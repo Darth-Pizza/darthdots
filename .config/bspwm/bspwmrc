@@ -1,0 +1,25 @@
+#! /bin/sh
+
+sxhkd &
+nitrogen --restore &
+pasystray &
+$HOME/.config/polybar/launch.sh &
+compton --config ~/.config/compton/compton.conf --blur-background --blur-method kawase --blur-strength 12 &
+xrandr --output HDMI-2 --mode 1920x1080 --rate 60.00 --primary && xrandr --output DVI-D-1 --mode 1600x900 --rate 60.00 --left-of HDMI-2&
+dunst > /dev/null 2>&1 &
+xset s off &
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc config border_width         0
+bspc config window_gap          40
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off

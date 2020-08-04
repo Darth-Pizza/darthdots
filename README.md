@@ -1,2 +1,2 @@
 # dotfiles
-Darth Pizza's Configs
+Darth Pizza's Configs of DOOM
